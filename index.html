@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>Brian 收藏圖鑑</title>
+
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#0f1520;
+      --card:#121a26;
+      --border:rgba(255,255,255,.08);
+      --text:#e5e7eb;
+      --sub:rgba(229,231,235,.68);
+      --muted:rgba(229,231,235,.45);
+      --accent:#d6b36a;
+      --accent2:#7dd3fc;
+      --shadow:0 16px 40px rgba(0,0,0,.45);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      padding:28px 16px 72px;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(214,179,106,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(125,211,252,.12), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;
+    }
+    .wrap{ max-width:1100px; margin:0 auto; }
+    h1{ text-align:center; margin:0 0 8px; font-size:34px; letter-spacing:1.2px; }
+    .subtitle{ text-align:center; color:var(--sub); margin:0 0 26px; font-size:14px; }
+    h2{
+      margin:48px 0 14px;
+      font-size:22px;
+      letter-spacing:.8px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    h2:before{
+      content:"";
+      width:10px; height:10px;
+      border-radius:999px;
+      background:var(--accent);
+      box-shadow:0 0 0 4px rgba(214,179,106,.15);
+    }
+    h3{
+      margin:18px 0 12px;
+      color:var(--sub);
+      font-size:15px;
+      font-weight:600;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .section{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:22px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap:16px;
+    }
+    .card{
+      position:relative;
+      border-radius:16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);
+      padding:12px;
+      box-shadow: var(--shadow);
+      transition: transform .18s ease, box-shadow .18s ease;
+      overflow:hidden;
+    }
+    .card:hover{ transform: translateY(-4px); box-shadow: 0 22px 55px rgba(0,0,0,.55); }
+    .card-inner{
+      background: rgba(18,26,38,.85);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;
+      padding:10px;
+    }
+    .card img{
+      width:100%;
+      aspect-ratio:3 / 4;
+      object-fit:contain;
+      border-radius:10px;
+      background: radial-gradient(500px 240px at 50% 20%, rgba(214,179,106,.18), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .name{
+      margin-top:10px;
+      font-weight:650;
+      font-size:14px;
+      line-height:1.35;
+      letter-spacing:.2px;
+    }
+    .grade{
+      margin-top:6px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      color:#1a1206;
+      background: linear-gradient(180deg, #f2d59a, #d6b36a);
+    }
+    .grade:before{ content:"★"; font-size:12px; }
+    .badge{
+      position:absolute;
+      top:10px; right:10px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.35);
+      color: var(--text);
+      backdrop-filter: blur(8px);
+    }
+    .badge.graded{ border-color: rgba(214,179,106,.35); color: #f6e7c7; }
+    .badge.raw{ border-color: rgba(125,211,252,.28); color: #dff4ff; }
+    .placeholder{
+      display:flex; align-items:center; justify-content:center;
+      aspect-ratio:3/4;
+      border-radius:10px;
+      background: rgba(255,255,255,.04);
+      border:1px dashed rgba(255,255,255,.14);
+      color: var(--muted);
+      font-size:13px;
+    }
+    @media (max-width: 480px){
+      h1{ font-size:28px; }
+      .grid{ grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="wrap">
+    <h1>Brian 收藏圖鑑</h1>
+    <p class="subtitle">Personal Collection Showcase · 依分類 / 鑑定狀態整理</p>
+
+    <h2>寶可夢</h2>
+    <h3>🔒 有鑑定</h3>
+    <div class="section"><div class="grid">
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/akwuQscDgUnD0qdKH5mx.jpg" alt="金澤皮卡丘">
+            <div class="name">金澤皮卡丘</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/ZmqOL9FHAvlsOcWKg2dL.jpg" alt="日文版 s6a 075/069 SR 水伊布">
+            <div class="name">日文版 s6a 075/069 SR 水伊布</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://i.ebayimg.com/images/g/aD4AAeSw6c5opPKL/s-l1600.webp" alt="竹藍（Cynthia）烈咬陸鯊">
+            <div class="name">竹藍（Cynthia）烈咬陸鯊</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://i.ebayimg.com/images/g/TGUAAeSwePhpUSkY/s-l1600.webp" alt="日版 噴火龍EX PSA10">
+            <div class="name">日版 噴火龍EX PSA10</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://i.ebayimg.com/images/g/HGgAAeSwqh9ozO9r/s-l1600.webp" alt="皮卡丘ex 132/106 Pikachu ex SAR Pokemon Super Electric Breaker">
+            <div class="name">皮卡丘ex 132/106 Pikachu ex SAR Pokemon Super Electric Breaker</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://i.ebayimg.com/images/g/cgQAAeSwrMVpSxtq/s-l1600.webp" alt="日文版 PTCG 超級沙奈朵 ex sar psa10 087/063 MEGA 沙奈朵 超級進化">
+            <div class="name">日文版 PTCG 超級沙奈朵 ex sar psa10 087/063 MEGA 沙奈朵 超級進化</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/148931277/small/8vXrJd5MsUyAuY_1QzBaeA.jpg" alt="咚咚鼠 CHR S8b VMAX 高峰對戰 200/184">
+            <div class="name">咚咚鼠 CHR S8b VMAX 高峰對戰 200/184</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+    </div></div>
+    <h3>🃏 沒鑑定</h3>
+    <div class="section"><div class="grid">
+
+        <div class="card">
+          <div class="badge raw">RAW</div>
+          <div class="card-inner">
+            <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/Yjmb8yjsaT6FUagH78uJ.jpg" alt="比克提尼（BWR樣式）【P】{288/SV-P}">
+            <div class="name">比克提尼（BWR樣式）【P】{288/SV-P}</div>
+            
+          </div>
+        </div>
+    </div></div>
+
+    <h2>海賊王</h2>
+    <h3>🔒 有鑑定</h3>
+    <div class="section"><div class="grid">
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/iTFe3CGGDiaayz5gzLAt.jpg" alt="王座魯夫P-043">
+            <div class="name">王座魯夫P-043</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/154048434/small/Yl1lsBq-rkevb9SVovQBmQ_a26b2.jpg" alt="2023 海賊王 日文版 OP06-船長的翅膀 #093 佩羅娜 異畫">
+            <div class="name">2023 海賊王 日文版 OP06-船長的翅膀 #093 佩羅娜 異畫</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="badge graded">GRADED</div>
+          <div class="card-inner">
+            <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/140728802/small/NfQgJe99zUO3lpX85XKfsg.jpg" alt="2022 ONE PIECE 日文 OP02-派拉蒙之戰 #120 UTA">
+            <div class="name">2022 ONE PIECE 日文 OP02-派拉蒙之戰 #120 UTA</div>
+            <div class="grade">PSA 10</div>
+          </div>
+        </div>
+    </div></div>
+
+  </div>
+</body>
+</html>
