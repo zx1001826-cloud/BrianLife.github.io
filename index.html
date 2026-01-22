@@ -2,13 +2,11 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Brian 收藏圖鑑</title>
-
   <style>
     :root{
       --bg:#0b0f14;
-      --panel:#0f1520;
-      --card:#121a26;
       --border:rgba(255,255,255,.08);
       --text:#e5e7eb;
       --sub:rgba(229,231,235,.68);
@@ -20,7 +18,6 @@
     *{ box-sizing:border-box; }
     body{
       margin:0;
-      padding:28px 16px 72px;
       background:
         radial-gradient(1200px 600px at 20% -10%, rgba(214,179,106,.18), transparent 60%),
         radial-gradient(900px 500px at 90% 0%, rgba(125,211,252,.12), transparent 55%),
@@ -28,238 +25,487 @@
       color:var(--text);
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif;
     }
-    .wrap{ max-width:1100px; margin:0 auto; }
-    h1{ text-align:center; margin:0 0 8px; font-size:34px; letter-spacing:1.2px; }
-    .subtitle{ text-align:center; color:var(--sub); margin:0 0 26px; font-size:14px; }
-    h2{
-      margin:48px 0 14px;
-      font-size:22px;
-      letter-spacing:.8px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    h2:before{
-      content:"";
-      width:10px; height:10px;
-      border-radius:999px;
-      background:var(--accent);
-      box-shadow:0 0 0 4px rgba(214,179,106,.15);
-    }
-    h3{
-      margin:18px 0 12px;
-      color:var(--sub);
-      font-size:15px;
-      font-weight:600;
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-    .section{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
-      margin-bottom:22px;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap:16px;
-    }
-    .card{
-      position:relative;
-      border-radius:16px;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.10);
-      padding:12px;
-      box-shadow: var(--shadow);
-      transition: transform .18s ease, box-shadow .18s ease;
-      overflow:hidden;
-    }
-    .card:hover{ transform: translateY(-4px); box-shadow: 0 22px 55px rgba(0,0,0,.55); }
-    .card-inner{
-      background: rgba(18,26,38,.85);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:12px;
-      padding:10px;
-    }
-    .card img{
-      width:100%;
-      aspect-ratio:3 / 4;
-      object-fit:contain;
-      border-radius:10px;
-      background: radial-gradient(500px 240px at 50% 20%, rgba(214,179,106,.18), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.06);
-    }
-    .name{
-      margin-top:10px;
-      font-weight:650;
-      font-size:14px;
-      line-height:1.35;
-      letter-spacing:.2px;
-    }
-    .grade{
-      margin-top:6px;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:5px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:700;
-      color:#1a1206;
-      background: linear-gradient(180deg, #f2d59a, #d6b36a);
-    }
-    .grade:before{ content:"★"; font-size:12px; }
-    .badge{
-      position:absolute;
-      top:10px; right:10px;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.6px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.35);
-      color: var(--text);
-      backdrop-filter: blur(8px);
-    }
-    .badge.graded{ border-color: rgba(214,179,106,.35); color: #f6e7c7; }
-    .badge.raw{ border-color: rgba(125,211,252,.28); color: #dff4ff; }
-    .placeholder{
-      display:flex; align-items:center; justify-content:center;
-      aspect-ratio:3/4;
-      border-radius:10px;
-      background: rgba(255,255,255,.04);
-      border:1px dashed rgba(255,255,255,.14);
-      color: var(--muted);
-      font-size:13px;
-    }
-    @media (max-width: 480px){
-      h1{ font-size:28px; }
-      .grid{ grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); }
-    }
-  </style>
 
+    .app{ display:grid; grid-template-columns: 260px 1fr; min-height:100vh; }
+    .sidebar{ position:sticky; top:0; height:100vh; padding:22px 16px; border-right:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)); }
+    .brand{ padding:14px; border-radius:16px; border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.25); box-shadow: var(--shadow);}
+    .brand h1{ margin:0; font-size:22px; }
+    .brand p{ margin:6px 0 0; color:var(--sub); font-size:12px; }
+
+    .nav{ margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+    .nav a{ text-decoration:none; color:var(--text); padding:12px; border-radius:14px; border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.18); display:flex; justify-content:space-between; }
+    .nav a.active{ border-color: rgba(214,179,106,.40); background: rgba(214,179,106,.12); }
+
+    .content{ padding:26px 18px 72px; }
+    .wrap{ max-width:1100px; margin:0 auto; }
+    .page{ display:none; } .page.show{ display:block; }
+
+    .page-header h2{ margin:0 0 8px; font-size:26px; }
+    .page-desc{ margin:0 0 18px; color:var(--sub); font-size:13px; }
+
+    h3{ margin:18px 0 12px; color:var(--sub); font-size:15px; }
+    .section{ background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:22px; }
+    .grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap:16px; }
+
+    .card{ position:relative; border-radius:16px; background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10); padding:12px; box-shadow: var(--shadow); }
+    .card-inner{ background: rgba(18,26,38,.85); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px; }
+    .card img{ width:100%; aspect-ratio:3/4; object-fit:contain; border-radius:10px; }
+    .name{ margin-top:10px; font-weight:650; font-size:14px; }
+    .grade{ margin-top:6px; padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700;
+      background: linear-gradient(180deg, #f2d59a, #d6b36a); color:#1a1206; }
+    .note{ margin-top:8px; color:var(--muted); font-size:12px; }
+    .badge{ position:absolute; top:10px; right:10px; font-size:11px; font-weight:800; padding:6px 10px; border-radius:999px; }
+    .badge.graded{ background:#d6b36a; color:#1a1206; }
+    .badge.raw{ background:#7dd3fc; color:#0b0f14; }
+    .badge.owned{ background:#22c55e; color:#052e16; }
+
+    @media (max-width:900px){ .app{ grid-template-columns:1fr; } .sidebar{ height:auto; } }
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Brian 收藏圖鑑</h1>
-    <p class="subtitle">Personal Collection Showcase · 依分類 / 鑑定狀態整理</p>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>Brian 收藏圖鑑</h1>
+      <p>收藏分類</p>
+    </div>
+    <nav class="nav">
+      <a href="#pokemon" data-target="pokemon">寶可夢卡牌 <small>10</small></a>
+      <a href="#onepiece" data-target="onepiece">海賊王卡牌 <small>3</small></a>
+      <a href="#gk" data-target="gk">GK <small>22</small></a>
+    </nav>
+  </aside>
 
-    <h2>寶可夢</h2>
-    <h3>🔒 有鑑定</h3>
-    <div class="section"><div class="grid">
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/akwuQscDgUnD0qdKH5mx.jpg" alt="金澤皮卡丘">
-            <div class="name">金澤皮卡丘</div>
-            <div class="grade">PSA 10</div>
-          </div>
+  <main class="content">
+    <div class="wrap">
+      <section id="pokemon" class="page" data-page="pokemon">
+        
+      <header class="page-header">
+        <h2>寶可夢卡牌</h2>
+        <p class="page-desc">依鑑定狀態分類顯示。</p>
+      </header>
+      
+      <h3>🔒 有鑑定</h3>
+      <div class="section">
+        <div class="grid">
+          
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/akwuQscDgUnD0qdKH5mx.jpg" alt="金澤皮卡丘">
+          <div class="name">金澤皮卡丘</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/ZmqOL9FHAvlsOcWKg2dL.jpg" alt="日文版 s6a 075/069 SR 水伊布">
-            <div class="name">日文版 s6a 075/069 SR 水伊布</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/ZmqOL9FHAvlsOcWKg2dL.jpg" alt="日文版 s6a 075/069 SR 水伊布">
+          <div class="name">日文版 s6a 075/069 SR 水伊布</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://i.ebayimg.com/images/g/aD4AAeSw6c5opPKL/s-l1600.webp" alt="竹藍（Cynthia）烈咬陸鯊">
-            <div class="name">竹藍（Cynthia）烈咬陸鯊</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://i.ebayimg.com/images/g/aD4AAeSw6c5opPKL/s-l1600.webp" alt="竹藍（Cynthia）烈咬陸鯊">
+          <div class="name">竹藍（Cynthia）烈咬陸鯊</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://i.ebayimg.com/images/g/TGUAAeSwePhpUSkY/s-l1600.webp" alt="日版 噴火龍EX PSA10">
-            <div class="name">日版 噴火龍EX PSA10</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://i.ebayimg.com/images/g/TGUAAeSwePhpUSkY/s-l1600.webp" alt="日版 噴火龍EX PSA10">
+          <div class="name">日版 噴火龍EX PSA10</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://i.ebayimg.com/images/g/HGgAAeSwqh9ozO9r/s-l1600.webp" alt="皮卡丘ex 132/106 Pikachu ex SAR Pokemon Super Electric Breaker">
-            <div class="name">皮卡丘ex 132/106 Pikachu ex SAR Pokemon Super Electric Breaker</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://i.ebayimg.com/images/g/HGgAAeSwqh9ozO9r/s-l1600.webp" alt="皮卡丘ex 132/106 Pikachu ex SAR Pokemon Super Electric Breaker">
+          <div class="name">皮卡丘ex 132/106 Pikachu ex SAR Pokemon Super Electric Breaker</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://i.ebayimg.com/images/g/cgQAAeSwrMVpSxtq/s-l1600.webp" alt="日文版 PTCG 超級沙奈朵 ex sar psa10 087/063 MEGA 沙奈朵 超級進化">
-            <div class="name">日文版 PTCG 超級沙奈朵 ex sar psa10 087/063 MEGA 沙奈朵 超級進化</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://i.ebayimg.com/images/g/cgQAAeSwrMVpSxtq/s-l1600.webp" alt="日文版 PTCG 超級沙奈朵 ex sar psa10 087/063 MEGA 沙奈朵 超級進化">
+          <div class="name">日文版 PTCG 超級沙奈朵 ex sar psa10 087/063 MEGA 沙奈朵 超級進化</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/148931277/small/8vXrJd5MsUyAuY_1QzBaeA.jpg" alt="咚咚鼠 CHR S8b VMAX 高峰對戰 200/184">
-            <div class="name">咚咚鼠 CHR S8b VMAX 高峰對戰 200/184</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/148931277/small/8vXrJd5MsUyAuY_1QzBaeA.jpg" alt="咚咚鼠 VMAX 200/184 CHR">
+          <div class="name">咚咚鼠 VMAX 200/184 CHR</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-    </div></div>
-    <h3>🃏 沒鑑定</h3>
-    <div class="section"><div class="grid">
-
-        <div class="card">
-          <div class="badge raw">RAW</div>
-          <div class="card-inner">
-            <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/Yjmb8yjsaT6FUagH78uJ.jpg" alt="比克提尼（BWR樣式）【P】{288/SV-P}">
-            <div class="name">比克提尼（BWR樣式）【P】{288/SV-P}</div>
-            
-          </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/179857005/small/aAgOnNTrI06OXynSymA1pg.jpg" alt="超夢 014/032 CLK">
+          <div class="name">超夢 014/032 CLK</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-    </div></div>
-
-    <h2>海賊王</h2>
-    <h3>🔒 有鑑定</h3>
-    <div class="section"><div class="grid">
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/iTFe3CGGDiaayz5gzLAt.jpg" alt="王座魯夫P-043">
-            <div class="name">王座魯夫P-043</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/175534743/small/2BvrQpojv0OpoRRXsNkYqw.jpg" alt="奇樹的電海燕  232/SV-P">
+          <div class="name">奇樹的電海燕  232/SV-P</div>
+          <div class="grade">PSA 10</div>
+          
         </div>
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/154048434/small/Yl1lsBq-rkevb9SVovQBmQ_a26b2.jpg" alt="2023 海賊王 日文版 OP06-船長的翅膀 #093 佩羅娜 異畫">
-            <div class="name">2023 海賊王 日文版 OP06-船長的翅膀 #093 佩羅娜 異畫</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
         </div>
-
-        <div class="card">
-          <div class="badge graded">GRADED</div>
-          <div class="card-inner">
-            <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/140728802/small/NfQgJe99zUO3lpX85XKfsg.jpg" alt="2022 ONE PIECE 日文 OP02-派拉蒙之戰 #120 UTA">
-            <div class="name">2022 ONE PIECE 日文 OP02-派拉蒙之戰 #120 UTA</div>
-            <div class="grade">PSA 10</div>
-          </div>
+      </div>
+    
+      <h3>🃏 沒鑑定</h3>
+      <div class="section">
+        <div class="grid">
+          
+      <div class="card">
+        <div class="badge raw">RAW</div>
+        <div class="card-inner">
+          <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/Yjmb8yjsaT6FUagH78uJ.jpg" alt="比克提尼（BWR樣式）【P】{288/SV-P}">
+          <div class="name">比克提尼（BWR樣式）【P】{288/SV-P}</div>
+          
+          
         </div>
-    </div></div>
+      </div>
+    
+        </div>
+      </div>
+    
+    
+      </section>
+      <section id="onepiece" class="page" data-page="onepiece">
+        
+      <header class="page-header">
+        <h2>海賊王卡牌</h2>
+        <p class="page-desc">依鑑定狀態分類顯示。</p>
+      </header>
+      
+      <h3>🔒 有鑑定</h3>
+      <div class="section">
+        <div class="grid">
+          
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/iTFe3CGGDiaayz5gzLAt.jpg" alt="王座魯夫P-043">
+          <div class="name">王座魯夫P-043</div>
+          <div class="grade">PSA 10</div>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/154048434/small/Yl1lsBq-rkevb9SVovQBmQ_a26b2.jpg" alt="佩羅娜 OP06-93">
+          <div class="name">佩羅娜 OP06-93</div>
+          <div class="grade">PSA 10</div>
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge graded">GRADED</div>
+        <div class="card-inner">
+          <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/140728802/small/NfQgJe99zUO3lpX85XKfsg.jpg" alt="UTA OP02-120">
+          <div class="name">UTA OP02-120</div>
+          <div class="grade">PSA 10</div>
+          
+        </div>
+      </div>
+    
+        </div>
+      </div>
+    
+          <h3>🃏 沒鑑定</h3>
+          <div class="section"><div class="empty-wrap"><div class="empty">目前沒有資料</div></div></div>
+        
+    
+      </section>
+      <section id="gk" class="page" data-page="gk">
+        
+      <header class="page-header">
+        <h2>GK 收藏</h2>
+        <p class="page-desc">全部為已入手 GK 收藏。</p>
+      </header>
+      
+      <h3>✅ 已入手</h3>
+      <div class="section">
+        <div class="grid">
+          
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/CHEESE%20%E5%A4%AA%E7%A9%BA%E4%BA%BA%E8%80%BF%E9%AC%BC.jpg" alt="CHEESE 太空人耿鬼">
+          <div class="name">CHEESE 太空人耿鬼</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/EGG%20%E7%AC%AC%E4%B8%89%E4%BB%A3%E5%BE%A1%E4%B8%89%E5%AE%B6.jpg" alt="EGG 第三代御三家">
+          <div class="name">EGG 第三代御三家</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/EGG%20%E7%AC%AC%E4%BA%8C%E4%BB%A3%E5%BE%A1%E4%B8%89%E5%AE%B6.jpg" alt="EGG 第二代御三家">
+          <div class="name">EGG 第二代御三家</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/EGG%E9%98%BF%E8%9B%8B%E5%B0%8F%E4%BD%9C%E5%9D%8A%20%2B%20CHEESE%E5%A5%B6%E9%85%AA%E6%9A%B4%E9%AF%89%E9%BE%8D%E8%AE%8A%E7%9A%AE%20%E8%88%87%20V3%20FANARTS%20%E8%B5%A4%E7%B4%85%EF%BD%9C%E5%AF%B6%E5%8F%AF%E5%A4%A2%20%E5%B0%8F%E6%96%B9%E6%99%AF%E7%B3%BB%E5%88%97.jpg" alt="EGG阿蛋小作坊 + CHEESE奶酪暴鯉龍變皮 與 V3 FANARTS 赤紅｜寶可夢 小方景系列">
+          <div class="name">EGG阿蛋小作坊 + CHEESE奶酪暴鯉龍變皮 與 V3 FANARTS 赤紅｜寶可夢 小方景系列</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/FWV%20%E8%80%BF%E9%AC%BC.jpg" alt="FWV 耿鬼">
+          <div class="name">FWV 耿鬼</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/Hit%20Face%E7%A0%B8%E8%87%89%20%E8%80%BF%E9%AC%BC.jpg" alt="Hit Face砸臉 耿鬼">
+          <div class="name">Hit Face砸臉 耿鬼</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/PomPon%E7%B5%A8%E7%B5%A8%20%E8%99%8E%E8%99%8E%E7%9D%A1%E8%A1%A3%E5%AE%89%E5%A6%AE%E4%BA%9E.jpg" alt="PomPon絨絨 虎虎睡衣安妮亞">
+          <div class="name">PomPon絨絨 虎虎睡衣安妮亞</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/PPAP%20%E4%BC%8A%E5%B8%83%E5%AE%B6%E6%97%8F.jpg" alt="PPAP 伊布家族">
+          <div class="name">PPAP 伊布家族</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/PPAP%20%E5%B0%8F%E8%82%A5%E9%B3%B3%E7%8E%8B.jpg" alt="PPAP 小肥鳳王">
+          <div class="name">PPAP 小肥鳳王</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/PPAP%20%E6%B4%9B%E5%A5%87%E4%BA%9E%20%2B%20%E4%B8%89%E8%81%96%E9%B3%A5%20%E7%81%AB%E7%84%B0%E9%B3%A5%20%26%20%E6%80%A5%E5%87%8D%E9%B3%A5%20%26%20%E9%96%83%E9%9B%BB%E9%B3%A5.jpg" alt="PPAP 洛奇亞 + 三聖鳥 火焰鳥 &amp; 急凍鳥 &amp; 閃電鳥">
+          <div class="name">PPAP 洛奇亞 + 三聖鳥 火焰鳥 &amp; 急凍鳥 &amp; 閃電鳥</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/PPAP%20%E8%80%BF%E9%AC%BC.jpg" alt="PPAP 耿鬼">
+          <div class="name">PPAP 耿鬼</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E5%92%96%E9%A6%AC%EF%BC%8D%E5%AE%89%E5%A6%AE%E4%BA%9Ecos%E8%80%BF%E9%AC%BC.jpg" alt="咖馬－安妮亞cos耿鬼">
+          <div class="name">咖馬－安妮亞cos耿鬼</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E5%A4%A9%E7%A9%BA%E6%98%A0%E5%83%8F_%E6%8B%9B%E8%B2%A1%E5%A6%99%E8%9B%99%E7%A8%AE%E5%AD%90%E5%92%AC%E9%87%91%E5%B9%A3.jpg" alt="天空映像_招財妙蛙種子咬金幣">
+          <div class="name">天空映像_招財妙蛙種子咬金幣</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E5%A5%B6%E7%B3%96%20%E6%8B%9B%E8%B2%A1%E7%9A%AE%E5%8D%A1%E4%B8%98.jpg" alt="奶糖 招財皮卡丘">
+          <div class="name">奶糖 招財皮卡丘</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E5%B0%BC%E5%8D%A1%E9%AD%AF%E5%A4%AB.jpg" alt="尼卡魯夫">
+          <div class="name">尼卡魯夫</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E6%95%B4%E6%B4%BB%20%E8%80%BF%E9%AC%BC%E5%AE%89%E5%A6%AE%E4%BA%9E.jpg" alt="整活 耿鬼安妮亞">
+          <div class="name">整活 耿鬼安妮亞</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E6%B0%B4%E8%89%A6%E9%9A%8A%20%E5%96%B5%E5%96%B5%E8%AE%8A%E7%9A%AE.jpg" alt="水艦隊 喵喵變皮">
+          <div class="name">水艦隊 喵喵變皮</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E6%BC%AB%E7%95%AB%E5%B1%8B%20%E8%80%BF%E9%AC%BC.jpg" alt="漫畫屋 耿鬼">
+          <div class="name">漫畫屋 耿鬼</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E7%9F%B3%E9%A0%AD%E9%AD%9A%20%E7%9A%AE%E5%8D%A1%E4%B8%98%E5%AE%B6%E6%97%8F.jpg" alt="石頭魚 皮卡丘家族">
+          <div class="name">石頭魚 皮卡丘家族</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/868e0c4c2c33faedec8cd5a6f50fd7c7f8c6d913/%E7%A5%9E%E9%9A%B1%20%E5%A4%A7%E6%A8%B9.jpg" alt="神隱 大樹">
+          <div class="name">神隱 大樹</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/refs/heads/main/%E9%BE%8D%E8%B2%93%E5%85%AC%E8%BB%8A.jpg" alt="龍貓公車">
+          <div class="name">龍貓公車</div>
+          
+          
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="badge owned">OWNED</div>
+        <div class="card-inner">
+          <img src="https://raw.githubusercontent.com/zx1001826-cloud/BrianLife.github.io/refs/heads/main/%E6%95%B4%E6%B4%BB%E7%8A%AC%E5%A4%9C%E5%8F%89%20%E8%88%87%20%E7%8E%AB%E7%91%B0%E7%A4%BE%E7%9A%AE%E5%8D%A1%E4%B8%98%E5%AE%89%E5%A6%AE%E4%BA%9E.jpg" alt="整活犬夜叉 與 玫瑰社皮卡丘安妮亞">
+          <div class="name">整活犬夜叉 與 玫瑰社皮卡丘安妮亞</div>
+          
+          
+        </div>
+      </div>
+    
+        </div>
+      </div>
+    
+    
+      </section>
+    </div>
+  </main>
+</div>
 
-  </div>
+<script>
+(function(){
+  const pages=[...document.querySelectorAll('.page')];
+  const links=[...document.querySelectorAll('.nav a')];
+  function show(id){
+    pages.forEach(p=>p.classList.toggle('show',p.dataset.page===id));
+    links.forEach(a=>a.classList.toggle('active',a.dataset.target===id));
+  }
+  function cur(){ return (location.hash||'#pokemon').replace('#',''); }
+  window.addEventListener('hashchange',()=>show(cur()));
+  show(cur());
+})();
+</script>
 </body>
 </html>
