@@ -705,26 +705,83 @@
   </div>
 
   <script>
-    (function() {
-      const pages = Array.from(document.querySelectorAll('.page'));
-      const links = Array.from(document.querySelectorAll('.nav a'));
+/**
+ * Brian 收藏圖鑑 - 分頁切換 + 左側數字自動統計
+ * 你只要新增/刪除卡片（.card），左側數字會自動更新
+ */
+(function () {
+  // 1) 抓到所有「頁面區塊」與「左側導覽按鈕」
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const links = Array.from(document.querySelectorAll('.nav a'));
 
-      function show(pageId) {
-        pages.forEach(p => p.classList.toggle('show', p.getAttribute('data-page') === pageId));
-        links.forEach(a => a.classList.toggle('active', a.getAttribute('data-target') === pageId));
-      }
+  /**
+   * 2) 顯示指定頁面 + 左側高亮對應按鈕
+   * @param {string} pageId - 'pokemon' | 'onepiece' | 'gk'
+   */
+  function show(pageId) {
+    // 右側頁面：符合的加上 .show，其他移除 .show
+    pages.forEach(p =>
+      p.classList.toggle('show', p.getAttribute('data-page') === pageId)
+    );
 
-      function current() {
-        const h = (location.hash || '#pokemon').replace('#','').trim();
-        const valid = ['pokemon','onepiece','gk'];
-        return valid.includes(h) ? h : 'pokemon';
-      }
+    // 左側按鈕：符合的加上 .active（高亮）
+    links.forEach(a =>
+      a.classList.toggle('active', a.getAttribute('data-target') === pageId)
+    );
+  }
 
-     
-      
-      window.addEventListener('hashchange', () => show(current()));
-      show(current());
-    })();
-  </script>
+  /**
+   * 3) 取得目前應顯示哪一頁
+   * 會看網址 hash（例如 #pokemon / #onepiece / #gk）
+   * 沒有 hash 就預設 pokemon
+   */
+  function current() {
+    const h = (location.hash || '#pokemon').replace('#', '').trim();
+    const valid = ['pokemon', 'onepiece', 'gk'];
+    return valid.includes(h) ? h : 'pokemon';
+  }
+
+  /**
+   * ✅ 4) 自動統計左側數字（重點功能）
+   * 會去每個頁面 section 裡面數 .card 的數量
+   * 然後更新左側 <small>...</small>
+   *
+   * 你以後只要新增卡片 HTML（.card），這裡就會自動更新數字
+   */
+  function updateSidebarCounts() {
+    // 每個 pageId 對應左側 small 的 selector
+    const map = {
+      pokemon: 'a[data-target="pokemon"] small',
+      onepiece: 'a[data-target="onepiece"] small',
+      gk: 'a[data-target="gk"] small',
+    };
+
+    Object.keys(map).forEach((pageId) => {
+      // 找到該頁面 section
+      const page = document.querySelector(`section[data-page="${pageId}"]`);
+      // 找到左側對應的小數字
+      const counter = document.querySelector(map[pageId]);
+      if (!page || !counter) return;
+
+      // 數該頁面裡所有卡片數量
+      const n = page.querySelectorAll('.card').length;
+      counter.textContent = n;
+    });
+  }
+
+  // 5) hash 變化就切頁（例如點左側按鈕）
+  window.addEventListener('hashchange', () => show(current()));
+
+  // 6) 首次載入：先更新數字，再顯示目前頁面
+  updateSidebarCounts();
+  show(current());
+
+  /**
+   * （可選）如果你之後會用 JS 動態插入卡片，
+   * 可以在插入後再呼叫一次 updateSidebarCounts();
+   */
+})();
+</script>
+
 </body>
 </html>
