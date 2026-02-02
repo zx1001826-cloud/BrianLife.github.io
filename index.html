@@ -817,6 +817,48 @@
    * 可以在插入後再呼叫一次 updateSidebarCounts();
    */
 })();
+
+    /**
+ * ====== 圖片點擊放大（Lightbox） ======
+ */
+function initLightbox() {
+  // 建立 lightbox 容器（只會建立一次）
+  let box = document.querySelector('.lightbox');
+  if (!box) {
+    box = document.createElement('div');
+    box.className = 'lightbox';
+    box.innerHTML = '<img src="" alt="preview">';
+    document.body.appendChild(box);
+
+    // 點背景關閉
+    box.addEventListener('click', () => {
+      box.classList.remove('show');
+    });
+
+    // ESC 關閉
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') box.classList.remove('show');
+    });
+  }
+
+  const imgEl = box.querySelector('img');
+
+  // 所有卡片圖片都可點
+  document.querySelectorAll('.card img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+
+    img.addEventListener('click', (e) => {
+      e.stopPropagation(); // 不影響其他點擊
+      imgEl.src = img.src;
+      box.classList.add('show');
+    });
+  });
+}
+
+// 初始化放大功能
+initLightbox();
+
+    
 </script>
 
 </body>
