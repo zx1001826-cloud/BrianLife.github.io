@@ -276,7 +276,7 @@
     <div class="card">
       <div class="badge graded">GRADED</div>
       <div class="card-inner">
-        <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/akwuQscDgUnD0qdKH5mx.jpg" alt="金澤皮卡丘">
+        <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/177192258/small/xjem5OA6-EG-uVGsPOPuTA.jpg?" alt="金澤皮卡丘">
         <div class="name">金澤皮卡丘</div>
         <div class="grade">PSA 10</div>
         
@@ -286,7 +286,7 @@
     <div class="card">
       <div class="badge graded">GRADED</div>
       <div class="card-inner">
-        <img src="https://s3.ap-northeast-1.amazonaws.com/oripal-world.com/shops/21/card_images/ZmqOL9FHAvlsOcWKg2dL.jpg" alt="日文版 s6a 075/069 SR 水伊布">
+        <img src="https://d1htnxwo4o0jhw.cloudfront.net/cert/182526841/small/ZcolxsK8UUeWnPgw8kt0rQ.jpg?" alt="日文版 s6a 075/069 SR 水伊布">
         <div class="name">日文版 s6a 075/069 SR 水伊布</div>
         <div class="grade">PSA 10</div>
         
@@ -720,6 +720,24 @@
         return valid.includes(h) ? h : 'pokemon';
       }
 
+      // ✅ 自動更新左側數字（依每頁 card 數量）
+(function () {
+  const map = {
+    pokemon: 'a[data-target="pokemon"] small',
+    onepiece: 'a[data-target="onepiece"] small',
+    gk: 'a[data-target="gk"] small',
+  };
+
+  Object.keys(map).forEach((pageId) => {
+    const page = document.querySelector(`section[data-page="${pageId}"]`);
+    const counter = document.querySelector(map[pageId]);
+    if (!page || !counter) return;
+
+    const n = page.querySelectorAll(".card").length;
+    counter.textContent = n;
+  });
+})();
+      
       window.addEventListener('hashchange', () => show(current()));
       show(current());
     })();
