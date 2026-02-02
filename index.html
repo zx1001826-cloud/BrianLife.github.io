@@ -246,6 +246,42 @@
       .app{ grid-template-columns: 1fr; }
       .sidebar{ position:relative; height:auto; }
     }
+
+    /* ====== 圖片放大 Lightbox ====== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.lightbox.show {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  background: #000;
+}
+
+.lightbox::after {
+  content: "✕";
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 28px;
+  color: #fff;
+  opacity: .8;
+  cursor: pointer;
+}
+    
   </style>
 </head>
 <body>
