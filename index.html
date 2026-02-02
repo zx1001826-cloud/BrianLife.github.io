@@ -720,23 +720,7 @@
         return valid.includes(h) ? h : 'pokemon';
       }
 
-      // ✅ 自動更新左側數字（依每頁 card 數量）
-(function () {
-  const map = {
-    pokemon: 'a[data-target="pokemon"] small',
-    onepiece: 'a[data-target="onepiece"] small',
-    gk: 'a[data-target="gk"] small',
-  };
-
-  Object.keys(map).forEach((pageId) => {
-    const page = document.querySelector(`section[data-page="${pageId}"]`);
-    const counter = document.querySelector(map[pageId]);
-    if (!page || !counter) return;
-
-    const n = page.querySelectorAll(".card").length;
-    counter.textContent = n;
-  });
-})();
+     
       
       window.addEventListener('hashchange', () => show(current()));
       show(current());
